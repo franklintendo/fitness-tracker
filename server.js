@@ -26,19 +26,69 @@ app.get("/api/workouts", (req,res) => {
         res.json(workouts);
     })
     .catch(err => {
-        res.json(err);
+        res.send(err);
     });
 });
 
-// app.get("/api/workouts/:id", (req,res) => {
-//     db.Workout.findOne({_id: mongojs.ObjectId(req.params.id)}, (err, data) => {
-//         if (err) {
-//             res.send(err);
-//         } else {
-//             res.json(data);
-//         }
-//     });
-// });
+app.get("/api/workouts/:id", (req,res) => {
+    db.Workout.findOne({_id: req.params.id}, (err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
+app.post("/api/workouts/", (req,res) => {
+    // console.log("After POST - req.body is:")
+    // console.log(req.body);
+
+    // db.Workout.create(req.body)
+    // .then(workout => {
+    //     res.json(workout);
+    // })
+    // .catch(err => {
+    //     res.send(err);
+    // });
+    
+});
+
+app.put("/api/workouts/:id", (req,res) => {
+    // console.log("After PUT - req.body is:");
+    // console.log(req.body);
+    // console.log("After PUT - req.params.id is:");
+    // console.log(req.params.id);
+    // let setFields = {};
+
+    // if (req.body.type === "cardio") {
+    //     setFields = {
+    //         type: req.body.type,
+    //         name: req.body.name,
+    //         distance: req.body.distance,
+    //         duration: req.body.duration 
+    //     }
+    // } else {
+    //     setFields = {
+    //         type: req.body.type,
+    //         name: req.body.name,
+    //         duration: req.body.duration,
+    //         weight: req.body.weight,
+    //         reps: req.body.reps,
+    //         sets: req.body.sets 
+    //     }
+    // }
+
+    db.Workout.updateOne({ _id: req.params.id}, {$push: {exercises: req.body}})
+    .then(data => {
+        // res.json(data);
+        console.log("Successfully updated!")
+    })
+    .catch(err => {
+        // res.send(err);
+        console.log(err);
+    });
+});
 
 // HTML Routes
 app.get("/exercise", (req,res) => {
