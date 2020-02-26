@@ -19,13 +19,23 @@ app.use(express.static("public"));
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
 // API Routes
-app.get("/api/workouts", (req,res) => {
+// app.get("/api/workouts", (req,res) => {
+//     db.Workout.find({})
+//     .then(workouts => {
+//         res.json(workouts);
+//     })
+//     .catch(err => {
+//         res.json(err);
+//     });
+// });
+
+app.get("/api/workouts/range", (req,res) => {
     db.Workout.find({})
     .then(workouts => {
         res.json(workouts);
     })
     .catch(err => {
-        res.send(err);
+        res.json(err);
     });
 });
 
@@ -39,34 +49,29 @@ app.get("/api/workouts/:id", (req,res) => {
     });
 });
 
+
+
 app.post("/api/workouts/", (req,res) => {
-    // console.log("After POST - req.body is:")
-    // console.log(req.body);
 
     db.Workout.create({})
     .then(workout => {
         res.json(workout);
     })
     .catch(err => {
-        res.send(err);
+        res.json(err);
     });
 
     
 });
 
 app.put("/api/workouts/:id", (req,res) => {
-    // console.log("After PUT - req.body is:");
-    // console.log(req.body);
-    // console.log("After PUT - req.params.id is:");
-    // console.log(req.params.id);
-
     db.Workout.updateOne({ _id: req.params.id}, {$push: {exercises: req.body}})
-    .then(() => {
-        // res.json(data);
+    .then((data) => {
+        res.json(data);
         console.log("Successfully updated!")
     })
     .catch(err => {
-        // res.send(err);
+        res.send(err);
         console.log(err);
     });
 });
