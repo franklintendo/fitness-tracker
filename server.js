@@ -1,5 +1,4 @@
 const express = require("express");
-// const mongojs = require("mongojs");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -44,13 +43,14 @@ app.post("/api/workouts/", (req,res) => {
     // console.log("After POST - req.body is:")
     // console.log(req.body);
 
-    // db.Workout.create(req.body)
-    // .then(workout => {
-    //     res.json(workout);
-    // })
-    // .catch(err => {
-    //     res.send(err);
-    // });
+    db.Workout.create({})
+    .then(workout => {
+        res.json(workout);
+    })
+    .catch(err => {
+        res.send(err);
+    });
+
     
 });
 
@@ -59,28 +59,9 @@ app.put("/api/workouts/:id", (req,res) => {
     // console.log(req.body);
     // console.log("After PUT - req.params.id is:");
     // console.log(req.params.id);
-    // let setFields = {};
-
-    // if (req.body.type === "cardio") {
-    //     setFields = {
-    //         type: req.body.type,
-    //         name: req.body.name,
-    //         distance: req.body.distance,
-    //         duration: req.body.duration 
-    //     }
-    // } else {
-    //     setFields = {
-    //         type: req.body.type,
-    //         name: req.body.name,
-    //         duration: req.body.duration,
-    //         weight: req.body.weight,
-    //         reps: req.body.reps,
-    //         sets: req.body.sets 
-    //     }
-    // }
 
     db.Workout.updateOne({ _id: req.params.id}, {$push: {exercises: req.body}})
-    .then(data => {
+    .then(() => {
         // res.json(data);
         console.log("Successfully updated!")
     })

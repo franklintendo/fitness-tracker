@@ -148,6 +148,12 @@ if(completeButton) {
 if(addButton) {
   addButton.addEventListener("click", handleFormSubmit);
 }
+
+if(newWorkout) {
+  newWorkout.addEventListener("click", function(event){
+    API.createWorkout(event);
+  });
+}
 toast.addEventListener("animationend", handleToastAnimationEnd);
 
 document
